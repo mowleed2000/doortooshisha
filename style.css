@@ -1,0 +1,670 @@
+
+:root {
+    --bg-dark: #07080A;
+    --bg-card: #0F1117;
+    --gold: #C5A059;
+    --gold-hover: #DFCA9B;
+    --text-ivory: #F4F1EA;
+    --text-muted: #8E96A4;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-gold: rgba(197, 160, 89, 0.35);
+    --shadow-luxury: 0 25px 50px rgba(0, 0, 0, 0.7);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-ivory);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-ivory);
+}
+
+/* NAVIGATION (SECTION 1) */
+header {
+    background: rgba(7, 8, 10, 0.96);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 6%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+}
+
+.logo-text h1 {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    color: #FFF;
+    font-weight: 800;
+}
+
+.logo-text span {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--gold);
+    display: block;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+nav a:hover, nav a.active {
+    color: var(--gold);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-concierge {
+    background: var(--gold);
+    color: #07080A;
+    padding: 12px 28px;
+    border-radius: 2px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-concierge:hover {
+    background: var(--gold-hover);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-ivory);
+    border: 1px solid var(--border-gold);
+    padding: 12px 28px;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* SECTION SPACING & RESPONSIVE CONTAINERS */
+section {
+    padding: 120px 6%;
+}
+
+.section-title-wrap {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 75px;
+}
+
+.section-label {
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.section-title-wrap h2 {
+    font-size: 3rem;
+    line-height: 1.2;
+}
+
+/* SECTION 2 — HERO (H01.png) */
+.hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(7, 8, 10, 0.4) 0%, rgba(7, 8, 10, 0.96) 100%), url('assets/images/shisha/hero/H01.png') center/cover no-repeat;
+    padding: 120px 6%;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 4.2rem;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    color: var(--text-ivory);
+}
+
+.hero h1 span {
+    color: var(--gold);
+}
+
+.hero-p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin: 0 auto 40px;
+    max-width: 680px;
+    font-weight: 400;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.hero-trust {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* SECTION 3 — PRIVATE SHISHA (H02.png) */
+.private-grid {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.private-img-wrap img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-luxury);
+}
+
+/* SECTION 4 — HOW IT WORKS */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    padding: 50px 35px;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.step-card:hover {
+    border-color: var(--border-gold);
+}
+
+.step-num {
+    font-family: 'Cinzel', serif;
+    font-size: 2.8rem;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.step-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+}
+
+.step-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* SECTION 5 — PACKAGES (P01, P02, P03) */
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.pkg-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-luxury);
+    transition: border-color 0.3s ease;
+}
+
+.pkg-card:hover {
+    border-color: var(--border-gold);
+}
+
+.pkg-card.highlight {
+    border: 1px solid var(--gold);
+    position: relative;
+}
+
+.pkg-pop-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--gold);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.pkg-card-img {
+    height: 260px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.pkg-card-body {
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.pkg-name {
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+}
+
+.pkg-price {
+    font-size: 2.8rem;
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.pkg-features {
+    list-style: none;
+    margin-bottom: 35px;
+}
+
+.pkg-features li {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pkg-features i {
+    color: var(--gold);
+    font-size: 0.75rem;
+}
+
+/* SECTION 6 — FLAVOURS (F01 - F08) */
+.flavour-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.flavour-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.flavour-card:hover {
+    border-color: var(--border-gold);
+    transform: translateY(-4px);
+}
+
+.flavour-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.flavour-info {
+    padding: 22px;
+    text-align: center;
+}
+
+.flavour-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.flavour-info span {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+}
+
+/* SECTION 7 — DELIVERY EXPERIENCE (D01, D02, D03) */
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.story-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.story-img {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.story-body {
+    padding: 30px;
+}
+
+.story-body h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.story-body p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* SECTION 8 — OPTIONAL UPGRADES (U01 - U04) */
+.upgrades-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.upgrade-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.upgrade-img {
+    height: 220px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.upgrade-body {
+    padding: 25px;
+}
+
+.upgrade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.upgrade-header h4 {
+    font-size: 1.15rem;
+}
+
+.upgrade-price {
+    font-size: 1.15rem;
+    color: var(--gold);
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+}
+
+.upgrade-body p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* SECTION 9 — PRIVATE EXPERIENCE (E01, E02, E03) */
+.exp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.exp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.exp-img {
+    height: 260px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.exp-body {
+    padding: 25px;
+}
+
+.exp-body h4 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+}
+
+.exp-body p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* SECTION 10 — COVERAGE */
+.coverage-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.coverage-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    padding: 25px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.coverage-item strong {
+    font-size: 1.1rem;
+    display: block;
+    color: var(--text-ivory);
+    margin-bottom: 4px;
+}
+
+.coverage-item span {
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+}
+
+/* SECTION 12 — FINAL CTA (D03 / H01) */
+.cta-section {
+    position: relative;
+    padding: 140px 6%;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(7, 8, 10, 0.6) 0%, rgba(7, 8, 10, 0.98) 100%), url('assets/images/shisha/delivery/D03.png') center/cover no-repeat;
+}
+
+/* ORDER CONCIERGE MODAL */
+.config-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(15px);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+}
+
+.config-modal-content {
+    background: #0B0D13;
+    border: 1px solid var(--border-gold);
+    border-radius: 4px;
+    width: 90%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 40px;
+    position: relative;
+    box-shadow: var(--shadow-luxury);
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: var(--gold);
+}
+
+/* FOOTER (SECTION 13) */
+footer {
+    background: #040507;
+    border-top: 1px solid var(--border-subtle);
+    padding: 80px 6% 30px;
+    color: var(--text-muted);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px;
+    max-width: 1300px;
+    margin: 0 auto 50px;
+}
+
+.footer-col h4 {
+    color: #FFF;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col li {
+    margin-bottom: 12px;
+}
+
+.footer-col a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-col a:hover {
+    color: var(--gold);
+}
+
+/* RESPONSIVE DESIGN (SECTION 19) */
+@media (max-width: 1100px) {
+    .flavour-grid, .upgrades-grid, .coverage-grid { grid-template-columns: repeat(2, 1fr); }
+    .packages-grid, .steps-grid, .story-grid, .exp-grid { grid-template-columns: 1fr; }
+    .private-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 3.2rem; }
+}
+
+@media (max-width: 768px) {
+    nav ul { display: none; }
+    .hero h1 { font-size: 2.5rem; }
+    .flavour-grid, .upgrades-grid, .coverage-grid { grid-template-columns: 1fr; }
+    section { padding: 80px 5%; }
+}
