@@ -249,6 +249,10 @@ h1, h2, h3, h4 {
 .nav-toggle span::before { top: -6px; }
 .nav-toggle span::after { top: 6px; }
 
+.nav-drawer {
+  display: none;
+}
+
 /* ——— BUTTONS ——— */
 .btn {
   display: inline-flex;
@@ -1331,34 +1335,50 @@ h1, h2, h3, h4 {
     display: inline-flex;
   }
 
-  .nav-links,
-  .nav-cta .btn-ghost {
+  .nav-bar > .nav-links {
     display: none;
   }
 
-  .site-header.is-open .nav-links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  .nav-bar > .nav-cta .btn-ghost,
+  .nav-bar > .nav-cta .nav-phone {
+    display: none;
+  }
+
+  .site-header.is-open .nav-drawer {
+    display: block;
     position: absolute;
     top: var(--nav-h);
     left: 0;
     right: 0;
     background: rgba(7, 6, 5, 0.98);
-    padding: 1.5rem 1.25rem 2rem;
     border-bottom: 1px solid var(--line);
-    gap: 1.1rem;
+    padding: 0.35rem 1.25rem 1.35rem;
+    z-index: 30;
+    max-height: calc(100vh - var(--nav-h));
+    overflow-y: auto;
   }
 
-  .site-header.is-open .nav-cta {
-    position: absolute;
-    top: calc(var(--nav-h) + 14.5rem);
-    left: 1.25rem;
-    right: 1.25rem;
+  .site-header.is-open .nav-drawer .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    list-style: none;
   }
 
-  .site-header.is-open .nav-cta .btn-ghost {
-    display: inline-flex;
+  .site-header.is-open .nav-drawer .nav-links a {
+    display: block;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--cream);
+  }
+
+  .site-header.is-open .nav-drawer .nav-cta {
+    display: flex;
+    gap: 0.65rem;
+    margin-top: 1rem;
+  }
+
+  .site-header.is-open .nav-drawer .nav-cta .btn {
     flex: 1;
   }
 

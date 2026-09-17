@@ -103,16 +103,34 @@ function total() {
 function initNav() {
   const header = $(".site-header");
   const toggle = $(".nav-toggle");
-  if (!toggle || !header) return;
+  const bar = $(".nav-bar");
+  if (!toggle || !header || !bar) return;
+
+  if (!$(".nav-drawer", header)) {
+    const links = $(".nav-links", header);
+    const cta = $(".nav-cta", header);
+    if (links && cta) {
+      const drawer = document.createElement("div");
+      drawer.className = "nav-drawer";
+      drawer.appendChild(links.cloneNode(true));
+      const ctaClone = cta.cloneNode(true);
+      $all(".nav-phone", ctaClone).forEach((el) => el.remove());
+      drawer.appendChild(ctaClone);
+      bar.appendChild(drawer);
+    }
+  }
+
+  const close = () => {
+    header.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+  };
+
   toggle.addEventListener("click", () => {
-    header.classList.toggle("is-open");
-    toggle.setAttribute(
-      "aria-expanded",
-      header.classList.contains("is-open") ? "true" : "false"
-    );
+    const open = header.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
   });
-  $all(".nav-links a").forEach((a) => {
-    a.addEventListener("click", () => header.classList.remove("is-open"));
+  $all(".nav-links a, .nav-drawer a", header).forEach((a) => {
+    a.addEventListener("click", close);
   });
 }
 
@@ -216,8 +234,21 @@ function buildOrderPage() {
     .join("");
 
   list.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-select-pkg]");
+    const row = e.target.closest(".pkg-row");
+    const id = btn?.dataset.selectPkg || row?.dataset.pkg;
+    if (!id) return;
+    e.preventDefault();
+    const pkg = MENU.packages.find((p) => p.id === id);
+    const targetRow = $(`.pkg-row[data-pkg="${id}"]`, list);
+    if (pkg) selectPackage(pkg, targetRow);
+  });
+
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
     const row = e.target.closest(".pkg-row");
     if (!row) return;
+    e.preventDefault();
     const pkg = MENU.packages.find((p) => p.id === row.dataset.pkg);
     if (pkg) selectPackage(pkg, row);
   });
