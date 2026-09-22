@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Parisienne&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" href="assets/videos/hero_video_web.mp4" as="video" type="video/mp4">
 </head>
 <body>
   <header class="site-header">
@@ -42,19 +41,22 @@
 
   <section class="hero hero--video">
     <div class="hero-media" aria-hidden="true">
-      <video
-        id="hero-video"
-        class="hero-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-        poster="assets/videos/hero_poster.webp"
-      >
-        <source src="assets/videos/hero_video_web.mp4" type="video/mp4">
-        <source src="assets/videos/hero_video.mp4" type="video/mp4">
-      </video>
+      <div class="hero-video-wrap">
+        <video
+          id="hero-video"
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          webkit-playsinline
+          preload="auto"
+          poster="assets/videos/hero_poster.webp"
+        >
+          <source src="assets/videos/hero_video_web.mp4" type="video/mp4">
+          <source src="assets/videos/hero_video.mp4" type="video/mp4">
+        </video>
+      </div>
       <img id="hero-fallback" class="hero-fallback" src="assets/videos/hero_poster.webp" alt="" hidden>
     </div>
     <div class="hero-inner">

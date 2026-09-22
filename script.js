@@ -427,37 +427,75 @@ function initHeroVideo() {
   const fallback = document.getElementById("hero-fallback");
   if (!video) return;
 
+  // Critical for autoplay across Chrome / Safari / iOS
+  video.muted = true;
+  video.defaultMuted = true;
+  video.setAttribute("muted", "");
+  video.playsInline = true;
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+  video.loop = true;
+  video.autoplay = true;
+
   const showFallback = () => {
-    video.style.display = "none";
+    // Only fall back if the video truly cannot play
+    if (video.currentSrc && video.readyState >= 2) return;
+    video.style.visibility = "hidden";
     if (fallback) {
       fallback.hidden = false;
       fallback.style.display = "block";
     }
   };
 
-  const markReady = () => {
-    video.classList.add("is-ready");
+  const hideFallback = () => {
+    video.style.visibility = "visible";
+    video.style.display = "block";
+    if (fallback) {
+      fallback.hidden = true;
+      fallback.style.display = "none";
+    }
   };
 
-  video.addEventListener("loadeddata", markReady);
-  video.addEventListener("playing", markReady);
-  video.addEventListener("error", showFallback);
-
-  const source = video.querySelector("source");
-  if (source) source.addEventListener("error", showFallback);
-
   const tryPlay = () => {
-    const p = video.play();
-    if (p && typeof p.then === "function") {
-      p.then(markReady).catch(() => {
-        // Autoplay blocked — keep poster/fallback visible
-        if (video.readyState < 2) showFallback();
+    hideFallback();
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.then === "function") {
+      playPromise.then(hideFallback).catch(() => {
+        // Retry once after a short delay (common on mobile)
+        setTimeout(() => {
+          video.muted = true;
+          video.play().then(hideFallback).catch(showFallback);
+        }, 250);
       });
     }
   };
 
+  video.addEventListener("loadeddata", tryPlay);
+  video.addEventListener("canplay", tryPlay);
+  video.addEventListener("playing", hideFallback);
+  video.addEventListener("error", showFallback);
+
+  // Kick playback as soon as possible
   if (video.readyState >= 2) tryPlay();
-  else video.addEventListener("canplay", tryPlay, { once: true });
+  else video.load();
+
+  // Resume if the browser pauses the hero in the background
+  document.addEventListener(
+    "visibilitychange",
+    () => {
+      if (!document.hidden && video.paused) tryPlay();
+    },
+    { passive: true }
+  );
+
+  // First gesture unlock (iOS / strict autoplay policies)
+  const unlock = () => {
+    video.muted = true;
+    tryPlay();
+  };
+  ["touchstart", "click", "scroll"].forEach((evt) => {
+    window.addEventListener(evt, unlock, { once: true, passive: true });
+  });
 }
 
 window.startOrder = startOrder;
