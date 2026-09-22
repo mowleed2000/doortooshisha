@@ -40,7 +40,7 @@
   </header>
 
   <section class="hero hero--video">
-    <div class="hero-media" aria-hidden="true">
+    <div class="hero-media">
       <div class="hero-video-wrap">
         <video
           id="hero-video"
@@ -52,12 +52,14 @@
           webkit-playsinline
           preload="auto"
           poster="assets/videos/hero_poster.webp"
-        >
-          <source src="assets/videos/hero_video_web.mp4" type="video/mp4">
-          <source src="assets/videos/hero_video.mp4" type="video/mp4">
-        </video>
+          src="assets/videos/hero_video_web.mp4"
+        ></video>
       </div>
       <img id="hero-fallback" class="hero-fallback" src="assets/videos/hero_poster.webp" alt="" hidden>
+      <button type="button" id="hero-play-btn" class="hero-play-btn" aria-label="Play video">
+        <i class="fa-solid fa-play"></i>
+        <span>Play video</span>
+      </button>
     </div>
     <div class="hero-inner">
       <p class="hero-brand">Shisha <em>Delivery</em></p>
@@ -74,6 +76,36 @@
         <span>18+ only</span>
       </div>
     </div>
+    <script>
+      (function () {
+        var v = document.getElementById("hero-video");
+        if (!v) return;
+        // Resolve correct path on GitHub project pages
+        var base = "/";
+        if (location.hostname.indexOf("github.io") !== -1) {
+          var parts = location.pathname.split("/").filter(Boolean);
+          if (parts.length) base = "/" + parts[0] + "/";
+        }
+        var src = base + "assets/videos/hero_video_web.mp4";
+        v.muted = true;
+        v.defaultMuted = true;
+        v.playsInline = true;
+        v.setAttribute("muted", "");
+        v.setAttribute("playsinline", "");
+        v.setAttribute("webkit-playsinline", "");
+        if (!v.getAttribute("src") || v.getAttribute("src").indexOf("http") !== 0) {
+          v.src = src;
+        }
+        var tryPlay = function () {
+          v.muted = true;
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        };
+        tryPlay();
+        v.addEventListener("loadeddata", tryPlay);
+        v.addEventListener("canplay", tryPlay);
+      })();
+    </script>
   </section>
 
   <section class="section-tight">

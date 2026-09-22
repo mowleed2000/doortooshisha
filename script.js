@@ -425,61 +425,95 @@ document.addEventListener("DOMContentLoaded", () => {
 function initHeroVideo() {
   const video = document.getElementById("hero-video");
   const fallback = document.getElementById("hero-fallback");
+  const playBtn = document.getElementById("hero-play-btn");
   if (!video) return;
 
-  // Critical for autoplay across Chrome / Safari / iOS
-  video.muted = true;
-  video.defaultMuted = true;
-  video.setAttribute("muted", "");
-  video.playsInline = true;
-  video.setAttribute("playsinline", "");
-  video.setAttribute("webkit-playsinline", "");
-  video.loop = true;
-  video.autoplay = true;
-
-  const showFallback = () => {
-    // Only fall back if the video truly cannot play
-    if (video.currentSrc && video.readyState >= 2) return;
-    video.style.visibility = "hidden";
-    if (fallback) {
-      fallback.hidden = false;
-      fallback.style.display = "block";
+  const resolveSrc = () => {
+    if (location.hostname.includes("github.io")) {
+      const parts = location.pathname.split("/").filter(Boolean);
+      const root = parts.length ? `/${parts[0]}/` : "/";
+      return `${root}assets/videos/hero_video_web.mp4`;
     }
+    // Local / relative
+    const here = location.pathname.replace(/\/[^/]*$/, "/");
+    return `${here}assets/videos/hero_video_web.mp4`.replace(/\/{2,}/g, "/").replace(":/", "://");
   };
 
-  const hideFallback = () => {
-    video.style.visibility = "visible";
-    video.style.display = "block";
-    if (fallback) {
-      fallback.hidden = true;
-      fallback.style.display = "none";
-    }
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.loop = true;
+  video.autoplay = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+
+  const desired = resolveSrc();
+  if (!video.src || !video.src.includes("hero_video")) {
+    video.src = desired;
+  }
+
+  const showPlayBtn = () => {
+    if (playBtn) playBtn.classList.add("is-visible");
+  };
+  const hidePlayBtn = () => {
+    if (playBtn) playBtn.classList.remove("is-visible");
   };
 
   const tryPlay = () => {
-    hideFallback();
-    const playPromise = video.play();
-    if (playPromise && typeof playPromise.then === "function") {
-      playPromise.then(hideFallback).catch(() => {
-        // Retry once after a short delay (common on mobile)
-        setTimeout(() => {
-          video.muted = true;
-          video.play().then(hideFallback).catch(showFallback);
-        }, 250);
+    video.muted = true;
+    const p = video.play();
+    if (p && typeof p.then === "function") {
+      p.then(() => {
+        hidePlayBtn();
+        if (fallback) {
+          fallback.hidden = true;
+          fallback.style.display = "none";
+        }
+      }).catch(() => {
+        showPlayBtn();
       });
     }
   };
 
+  video.addEventListener("playing", hidePlayBtn);
+  video.addEventListener("pause", () => {
+    if (!video.ended) showPlayBtn();
+  });
   video.addEventListener("loadeddata", tryPlay);
   video.addEventListener("canplay", tryPlay);
-  video.addEventListener("playing", hideFallback);
-  video.addEventListener("error", showFallback);
+  video.addEventListener("error", () => {
+    showPlayBtn();
+    if (fallback) {
+      fallback.hidden = false;
+      fallback.style.display = "block";
+    }
+  });
 
-  // Kick playback as soon as possible
-  if (video.readyState >= 2) tryPlay();
-  else video.load();
+  if (playBtn) {
+    playBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      video.muted = true;
+      video.play().then(hidePlayBtn).catch(() => showPlayBtn());
+    });
+  }
 
-  // Resume if the browser pauses the hero in the background
+  // Clicking the hero background also tries to start playback
+  const media = document.querySelector(".hero--video .hero-media");
+  if (media) {
+    media.addEventListener("click", (e) => {
+      if (e.target.closest("a, button")) return;
+      if (video.paused) {
+        video.muted = true;
+        video.play().then(hidePlayBtn).catch(() => showPlayBtn());
+      }
+    });
+  }
+
+  tryPlay();
+  video.load();
+
   document.addEventListener(
     "visibilitychange",
     () => {
@@ -488,14 +522,20 @@ function initHeroVideo() {
     { passive: true }
   );
 
-  // First gesture unlock (iOS / strict autoplay policies)
-  const unlock = () => {
-    video.muted = true;
-    tryPlay();
-  };
-  ["touchstart", "click", "scroll"].forEach((evt) => {
-    window.addEventListener(evt, unlock, { once: true, passive: true });
+  ["touchstart", "click", "scroll", "keydown"].forEach((evt) => {
+    window.addEventListener(
+      evt,
+      () => {
+        if (video.paused) tryPlay();
+      },
+      { once: true, passive: true }
+    );
   });
+
+  // If still paused after a moment, show the play button clearly
+  setTimeout(() => {
+    if (video.paused) showPlayBtn();
+  }, 1200);
 }
 
 window.startOrder = startOrder;
