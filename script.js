@@ -435,17 +435,29 @@ function initHeroVideo() {
     }
   };
 
-  video.addEventListener("error", showFallback);
-  const source = video.querySelector("source");
-  if (source) {
-    source.addEventListener("error", showFallback);
-  }
+  const markReady = () => {
+    video.classList.add("is-ready");
+  };
 
-  // If file missing, browsers may not fire error until play attempt
-  video.play().catch(showFallback);
-  setTimeout(() => {
-    if (video.readyState < 2) showFallback();
-  }, 1200);
+  video.addEventListener("loadeddata", markReady);
+  video.addEventListener("playing", markReady);
+  video.addEventListener("error", showFallback);
+
+  const source = video.querySelector("source");
+  if (source) source.addEventListener("error", showFallback);
+
+  const tryPlay = () => {
+    const p = video.play();
+    if (p && typeof p.then === "function") {
+      p.then(markReady).catch(() => {
+        // Autoplay blocked — keep poster/fallback visible
+        if (video.readyState < 2) showFallback();
+      });
+    }
+  };
+
+  if (video.readyState >= 2) tryPlay();
+  else video.addEventListener("canplay", tryPlay, { once: true });
 }
 
 window.startOrder = startOrder;
