@@ -182,7 +182,7 @@ function initSiteChrome() {
     wa.target = "_blank";
     wa.rel = "noopener noreferrer";
     wa.setAttribute("aria-label", "Message us on WhatsApp");
-    wa.innerHTML = '<i class="fa-brands fa-whatsapp"></i>';
+    wa.innerHTML = '<span class="icon icon-whatsapp" aria-hidden="true"></span>';
     document.body.appendChild(wa);
   }
 

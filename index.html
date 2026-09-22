@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHISHA DELIVERY | Premium Flavours Delivered Across Central London</title>
+  <title>Door To Door Shisha Delivery | Premium Flavours Delivered Across Central London</title>
   <meta name="description" content="24/7 premium shisha delivery in Central London. Order online — pay by card or cash on delivery. Westminster, Knightsbridge, Chelsea and more.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Parisienne&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=Parisienne&family=Syne:wght@700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=Parisienne&family=Syne:wght@700;800&display=swap" rel="stylesheet"></noscript>
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://mowleed2000.github.io/doortooshisha/">
-  <meta property="og:title" content="SHISHA DELIVERY | Premium Central London">
+  <meta property="og:title" content="Door To Door Shisha Delivery | Premium Central London">
   <meta property="og:description" content="24/7 premium shisha delivery across Central London. Card or cash. 18+ with ID check on delivery.">
   <meta property="og:type" content="website">
+  <link rel="stylesheet" href="icons.css">
   <link rel="stylesheet" href="style.css">
-
+  <link rel="preload" href="assets/videos/hero_poster.webp" as="image" type="image/webp">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": "Shisha Delivery",
+    "name": "Door To Door Shisha Delivery",
     "description": "24/7 premium shisha delivery across Central London. Card or cash. 18+ with ID check on delivery.",
     "url": "https://mowleed2000.github.io/doortooshisha/",
     "telephone": "+447903375779",
@@ -38,10 +39,10 @@
   <header class="site-header">
     <div class="container nav-bar">
       <a class="brand" href="index.html">
-        <div class="brand-mark" aria-hidden="true"><i class="fa-solid fa-wind"></i></div>
+        <div class="brand-mark" aria-hidden="true"><span class="icon icon-wind" aria-hidden="true"></span></div>
         <div class="brand-copy">
-          <strong>Shisha Delivery</strong>
-          <span>Central London · 24/7</span>
+          <strong>Door To Door</strong>
+          <span>Shisha Delivery · 24/7</span>
         </div>
       </a>
       <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
@@ -55,7 +56,7 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
       <div class="nav-cta">
-        <a class="nav-phone" href="tel:07903375779"><i class="fa-solid fa-phone"></i> 07903375779</a>
+        <a class="nav-phone" href="tel:07903375779"><span class="icon icon-phone" aria-hidden="true"></span> 07903375779</a>
         <a class="btn btn-ghost" href="tel:07903375779">Call</a>
         <a class="btn btn-gold" href="order.html">Order now</a>
       </div>
@@ -68,24 +69,22 @@
         <video
           id="hero-video"
           class="hero-video"
-          autoplay
           muted
           loop
           playsinline
           webkit-playsinline
-          preload="auto"
+          preload="none"
           poster="assets/videos/hero_poster.webp"
-          src="assets/videos/hero_video_web.mp4"
         ></video>
       </div>
-      <img id="hero-fallback" class="hero-fallback" src="assets/videos/hero_poster.webp" alt="" hidden>
+      <img id="hero-fallback" class="hero-fallback" src="assets/videos/hero_poster.webp" alt="" decoding="async">
       <button type="button" id="hero-play-btn" class="hero-play-btn" aria-label="Play video">
-        <i class="fa-solid fa-play"></i>
+        <span class="icon icon-play" aria-hidden="true"></span>
         <span>Play video</span>
       </button>
     </div>
     <div class="hero-inner">
-      <p class="hero-brand">Shisha <em>Delivery</em></p>
+      <p class="hero-brand">Door To Door<br><em>Shisha Delivery</em></p>
       <p class="hero-tag">Premium flavours delivered to you</p>
       <p class="hero-lead">Ready-to-smoke premium setups across Central London. Authentic tobacco, natural coals and discreet 24/7 delivery. Order online — pay by card or cash.</p>
       <div class="hero-actions">
@@ -103,31 +102,69 @@
     <script>
       (function () {
         var v = document.getElementById("hero-video");
+        var fb = document.getElementById("hero-fallback");
+        var btn = document.getElementById("hero-play-btn");
         if (!v) return;
-        // Resolve correct path on GitHub project pages
         var base = "/";
         if (location.hostname.indexOf("github.io") !== -1) {
           var parts = location.pathname.split("/").filter(Boolean);
           if (parts.length) base = "/" + parts[0] + "/";
         }
         var src = base + "assets/videos/hero_video_web.mp4";
-        v.muted = true;
-        v.defaultMuted = true;
-        v.playsInline = true;
-        v.setAttribute("muted", "");
-        v.setAttribute("playsinline", "");
-        v.setAttribute("webkit-playsinline", "");
-        if (!v.getAttribute("src") || v.getAttribute("src").indexOf("http") !== 0) {
-          v.src = src;
+        var loaded = false;
+        function showBtn() {
+          if (btn) btn.classList.add("is-visible");
         }
-        var tryPlay = function () {
+        function hideBtn() {
+          if (btn) btn.classList.remove("is-visible");
+        }
+        function hideFallback() {
+          if (fb) fb.hidden = true;
+        }
+        function loadAndPlay() {
+          if (!loaded) {
+            loaded = true;
+            v.src = src;
+            v.load();
+          }
           v.muted = true;
+          v.defaultMuted = true;
+          v.setAttribute("muted", "");
+          v.setAttribute("playsinline", "");
           var p = v.play();
-          if (p && p.catch) p.catch(function () {});
+          if (p && p.then) {
+            p.then(function () {
+              hideFallback();
+              hideBtn();
+            }).catch(function () {
+              showBtn();
+            });
+          }
+        }
+        // Defer video until after first paint so LCP isn't blocked by ~660KB
+        var start = function () {
+          if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            showBtn();
+            return;
+          }
+          loadAndPlay();
         };
-        tryPlay();
-        v.addEventListener("loadeddata", tryPlay);
-        v.addEventListener("canplay", tryPlay);
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(start, { timeout: 1200 });
+        } else {
+          setTimeout(start, 400);
+        }
+        if (btn) {
+          btn.addEventListener("click", function () {
+            loadAndPlay();
+          });
+        }
+        v.addEventListener("playing", function () {
+          hideFallback();
+          hideBtn();
+          if (v.parentElement) v.parentElement.classList.add("is-playing");
+        });
+        v.addEventListener("error", showBtn);
       })();
     </script>
   </section>
@@ -136,27 +173,27 @@
     <div class="container">
       <div class="feature-strip reveal">
         <div class="feature-item">
-          <i class="fa-solid fa-gem"></i>
+          <span class="icon icon-gem" aria-hidden="true"></span>
           <strong>Premium brands</strong>
           <span>Al Fakher, Adalya, Mazaya & more</span>
         </div>
         <div class="feature-item">
-          <i class="fa-solid fa-bolt"></i>
+          <span class="icon icon-bolt" aria-hidden="true"></span>
           <strong>Fast & reliable</strong>
           <span>Typical 20–40 min windows</span>
         </div>
         <div class="feature-item">
-          <i class="fa-solid fa-clock"></i>
+          <span class="icon icon-clock" aria-hidden="true"></span>
           <strong>24 hour delivery</strong>
           <span>Day or night, same vibe</span>
         </div>
         <div class="feature-item">
-          <i class="fa-solid fa-shield-halved"></i>
+          <span class="icon icon-shield" aria-hidden="true"></span>
           <strong>Discreet service</strong>
           <span>Professional private drop-off</span>
         </div>
         <div class="feature-item">
-          <i class="fa-solid fa-credit-card"></i>
+          <span class="icon icon-card" aria-hidden="true"></span>
           <strong>Trusted service</strong>
           <span>ID verified on every delivery</span>
         </div>
@@ -178,7 +215,7 @@
           </div>
         </div>
         <div class="split-visual">
-          <img src="assets/images/shisha/hero/H02.webp" alt="Premium shisha setup ready to enjoy">
+          <img loading="lazy" src="assets/images/shisha/hero/H02.webp" alt="Premium shisha setup ready to enjoy">
         </div>
       </div>
     </div>
@@ -189,9 +226,9 @@
     <div class="container">
       <div class="trust-band reveal">
         <div class="trust-band-item"><span class="age-badge">18+</span><strong>Adults only</strong><span>Photo ID checked on delivery</span></div>
-        <div class="trust-band-item"><i class="fa-solid fa-shield-halved"></i><strong>Trusted service</strong><span>Discreet Central London delivery</span></div>
-        <div class="trust-band-item"><i class="fa-solid fa-credit-card"></i><strong>Card or cash</strong><span class="pay-accept"><i class="fa-brands fa-cc-visa"></i><i class="fa-brands fa-cc-mastercard"></i></span></div>
-        <div class="trust-band-item"><i class="fa-solid fa-clock"></i><strong>24/7</strong><span>Day or night across our zones</span></div>
+        <div class="trust-band-item"><span class="icon icon-shield" aria-hidden="true"></span><strong>Trusted service</strong><span>Discreet Central London delivery</span></div>
+        <div class="trust-band-item"><span class="icon icon-card" aria-hidden="true"></span><strong>Card or cash</strong><span class="pay-accept"><span class="icon icon-visa" title="Visa" aria-label="Visa"></span><span class="icon icon-mc" title="Mastercard" aria-label="Mastercard"></span></span></div>
+        <div class="trust-band-item"><span class="icon icon-clock" aria-hidden="true"></span><strong>24/7</strong><span>Day or night across our zones</span></div>
       </div>
     </div>
   </section>
@@ -229,7 +266,7 @@
       </div>
       <div class="menu-band reveal" id="home-packages">
         <article class="pkg-row" onclick="startOrder('1 Shisha')">
-          <img src="assets/images/shisha/packages/P01.webp" alt="1 Shisha package">
+          <img loading="lazy" src="assets/images/shisha/packages/P01.webp" alt="1 Shisha package">
           <div>
             <h3>1 Shisha</h3>
             <p style="color:var(--cream-mute);font-size:0.92rem;">Solo night in — pipe, fresh head, 10 coals, mouthpiece.</p>
@@ -245,7 +282,7 @@
           </div>
         </article>
         <article class="pkg-row is-selected" onclick="startOrder('2 Shisha')">
-          <img src="assets/images/shisha/packages/P02.webp" alt="2 Shisha package">
+          <img loading="lazy" src="assets/images/shisha/packages/P02.webp" alt="2 Shisha package">
           <div>
             <span class="pkg-badge">Most ordered</span>
             <h3>2 Shisha</h3>
@@ -262,7 +299,7 @@
           </div>
         </article>
         <article class="pkg-row" onclick="startOrder('3 Shisha')">
-          <img src="assets/images/shisha/packages/P03.webp" alt="3 Shisha package">
+          <img loading="lazy" src="assets/images/shisha/packages/P03.webp" alt="3 Shisha package">
           <div>
             <h3>3 Shisha</h3>
             <p style="color:var(--cream-mute);font-size:0.92rem;">Built for flats, suites and small gatherings.</p>
@@ -380,7 +417,7 @@
     <div class="container">
       <div class="split reverse reveal">
         <div class="split-visual">
-          <img src="assets/images/shisha/upgrades/U03.webp" alt="Juice base and shisha extras">
+          <img loading="lazy" src="assets/images/shisha/upgrades/U03.webp" alt="Juice base and shisha extras">
         </div>
         <div class="split-copy">
           <span class="eyebrow">Extras menu</span>
@@ -450,7 +487,7 @@
 
   <section class="cta-band">
     <div class="hero-media" aria-hidden="true">
-      <img src="assets/images/shisha/experience/E02.webp" alt="">
+      <img loading="lazy" src="assets/images/shisha/experience/E02.webp" alt="">
     </div>
     <div class="container" style="position:relative;z-index:2;">
       <span class="eyebrow">Good shisha · Better times</span>
@@ -466,7 +503,7 @@
 
   <footer class="site-footer"></footer>
 
-  <script src="footer.js"></script>
-  <script src="script.js"></script>
+  <script src="footer.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

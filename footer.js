@@ -10,25 +10,25 @@
   <div class="container footer-top">
     <div class="footer-brand-block">
       <a class="brand" href="${p}index.html">
-        <div class="brand-mark" aria-hidden="true"><i class="fa-solid fa-wind"></i></div>
+        <div class="brand-mark" aria-hidden="true"><span class="icon icon-wind"></span></div>
         <div class="brand-copy">
-          <strong>Shisha Delivery</strong>
-          <span>Trusted · Central London · 24/7</span>
+          <strong>Door To Door</strong>
+          <span>Shisha Delivery · Central London</span>
         </div>
       </a>
       <p class="footer-lead">Premium shisha delivered to your door across Central London. Ready-to-smoke setups, discreet service, card or cash on delivery.</p>
       <div class="footer-contact-row">
-        <a href="tel:07903375779"><i class="fa-solid fa-phone"></i> 07903375779</a>
-        <a href="mailto:Mrshawest26@gmail.com"><i class="fa-solid fa-envelope"></i> Mrshawest26@gmail.com</a>
+        <a href="tel:07903375779"><span class="icon icon-phone" aria-hidden="true"></span> 07903375779</a>
+        <a href="mailto:Mrshawest26@gmail.com"><span class="icon icon-mail" aria-hidden="true"></span> Mrshawest26@gmail.com</a>
       </div>
       <div class="footer-social">
-        <a href="${wa}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-        <a href="${tiktok}" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="${wa}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><span class="icon icon-whatsapp"></span></a>
+        <a href="${tiktok}" aria-label="TikTok"><span class="icon icon-tiktok"></span></a>
       </div>
       <div class="pay-accept footer-pay">
         <span>We accept</span>
-        <i class="fa-brands fa-cc-visa" title="Visa"></i>
-        <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+        <span class="icon icon-visa" title="Visa" aria-label="Visa"></span>
+        <span class="icon icon-mc" title="Mastercard" aria-label="Mastercard"></span>
         <span class="cash-pill">Cash</span>
       </div>
       <a class="btn btn-gold footer-order-btn" href="${p}order.html">Order your shisha</a>
@@ -64,7 +64,7 @@
   </div>
   <div class="container footer-bottom">
     <span class="age-badge">18+</span>
-    <span>© ${new Date().getFullYear()} Shisha Delivery. Central London. Smoke responsibly.</span>
+    <span>© ${new Date().getFullYear()} Door To Door Shisha Delivery. Smoke responsibly.</span>
     <span class="age-note">Valid photo ID required on delivery</span>
   </div>`;
 
