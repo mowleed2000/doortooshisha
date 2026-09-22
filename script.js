@@ -215,7 +215,7 @@ function buildOrderPage() {
 
   list.innerHTML = MENU.packages
     .map((pkg, i) => {
-      const img = `assets/images/shisha/packages/P0${pkg.id}.png`;
+      const img = `assets/images/shisha/packages/P0${pkg.id}.webp`;
       return `
       <article class="pkg-row${i === 0 ? " is-selected" : ""}" data-pkg="${pkg.id}" role="button" tabindex="0">
         <img src="${img}" alt="${pkg.name} package">
@@ -419,7 +419,34 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveal();
   buildOrderPage();
   applyPreselect();
+  initHeroVideo();
 });
+
+function initHeroVideo() {
+  const video = document.getElementById("hero-video");
+  const fallback = document.getElementById("hero-fallback");
+  if (!video) return;
+
+  const showFallback = () => {
+    video.style.display = "none";
+    if (fallback) {
+      fallback.hidden = false;
+      fallback.style.display = "block";
+    }
+  };
+
+  video.addEventListener("error", showFallback);
+  const source = video.querySelector("source");
+  if (source) {
+    source.addEventListener("error", showFallback);
+  }
+
+  // If file missing, browsers may not fire error until play attempt
+  video.play().catch(showFallback);
+  setTimeout(() => {
+    if (video.readyState < 2) showFallback();
+  }, 1200);
+}
 
 window.startOrder = startOrder;
 window.MENU = MENU;
