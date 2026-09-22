@@ -199,7 +199,7 @@ function initSiteChrome() {
   }, 50);
 }
 
-/* ——— HERO VIDEO (kept lean) ——— */
+/* ——— HERO VIDEO (deferred load — do not compete with LCP) ——— */
 function initHeroVideo() {
   const video = document.getElementById("hero-video");
   const fallback = document.getElementById("hero-fallback");
@@ -219,52 +219,60 @@ function initHeroVideo() {
   video.defaultMuted = true;
   video.playsInline = true;
   video.loop = true;
-  video.autoplay = true;
   video.setAttribute("muted", "");
   video.setAttribute("playsinline", "");
-  video.setAttribute("webkit-playsinline", "");
-
-  if (!video.src || !String(video.src).includes("hero_video")) {
-    video.src = resolveSrc();
-  }
 
   const showPlayBtn = () => playBtn && playBtn.classList.add("is-visible");
   const hidePlayBtn = () => playBtn && playBtn.classList.remove("is-visible");
+  let loaded = false;
 
-  const tryPlay = () => {
+  const loadAndPlay = () => {
+    if (!loaded) {
+      loaded = true;
+      video.src = resolveSrc();
+      video.load();
+    }
     video.muted = true;
     const p = video.play();
     if (p && typeof p.then === "function") {
       p.then(() => {
         hidePlayBtn();
-        if (fallback) {
-          fallback.hidden = true;
-          fallback.style.display = "none";
-        }
+        if (video.parentElement) video.parentElement.classList.add("is-playing");
+        if (fallback) fallback.hidden = true;
       }).catch(showPlayBtn);
     }
   };
 
-  video.addEventListener("playing", hidePlayBtn);
-  video.addEventListener("pause", () => {
-    if (!video.ended) showPlayBtn();
+  video.addEventListener("playing", () => {
+    hidePlayBtn();
+    if (video.parentElement) video.parentElement.classList.add("is-playing");
+    if (fallback) fallback.hidden = true;
   });
-  video.addEventListener("loadeddata", tryPlay);
-  video.addEventListener("canplay", tryPlay);
+  video.addEventListener("error", showPlayBtn);
 
   if (playBtn) {
     playBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      e.stopPropagation();
-      video.muted = true;
-      video.play().then(hidePlayBtn).catch(showPlayBtn);
+      loadAndPlay();
     });
   }
 
-  tryPlay();
+  const start = () => {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      showPlayBtn();
+      return;
+    }
+    loadAndPlay();
+  };
+
+  // Always wait past first paint — idle alone can fire too early in some browsers
   setTimeout(() => {
-    if (video.paused) showPlayBtn();
-  }, 1200);
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(start, { timeout: 800 });
+    } else {
+      start();
+    }
+  }, 900);
 }
 
 /* ——— E-COMMERCE SHOP + CHECKOUT DRAWER ——— */
