@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order Shisha Online | SHISHA DELIVERY Central London</title>
-  <meta name="description" content="Order premium shisha delivery online. Choose 1, 2 or 3 shisha packages, flavours and extras. Pay by card or cash on delivery across Central London.">
+  <meta name="description" content="Order premium shisha delivery across Central London. Choose your package, flavour and extras. Pay by card or cash on delivery. 18+ ID checked on arrival.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://mowleed2000.github.io/doortooshisha/order.html">
+  <meta property="og:title" content="Order Shisha Online | SHISHA DELIVERY">
+  <meta property="og:description" content="Premium 24/7 shisha delivery in Central London. Card or cash. 18+ with ID check on delivery.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/shisha/packages/P02.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Parisienne&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
@@ -39,102 +45,149 @@
     </div>
   </header>
 
-  <section class="page-hero">
+  <section class="page-hero page-hero--shop">
     <div class="hero-media" aria-hidden="true">
-      <img src="assets/images/shisha/packages/P02.webp" alt="">
+      <img src="assets/images/shisha/packages/P02.webp" alt="" loading="eager">
     </div>
     <div class="page-hero-inner">
-      <span class="eyebrow">Online menu · Checkout</span>
+      <span class="eyebrow">Shop</span>
       <h1>Order your shisha</h1>
-      <p>Full menu with packages, flavours and extras. Pay securely by card (Stripe link ready to connect) or choose cash on delivery.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container order-layout">
-      <div>
-        <div class="section-head" style="margin-bottom:1.75rem;">
-          <span class="eyebrow">Step 1</span>
-          <h2>Choose a package</h2>
-          <p>Every package arrives ready to smoke with coals and hygienic mouthpieces.</p>
-        </div>
-        <div class="menu-band" id="package-list"></div>
-
-        <div class="section-head" style="margin:3rem 0 1rem;">
-          <span class="eyebrow">Step 2</span>
-          <h2>Pick your flavour brand</h2>
-          <p>Tell us which house brand you want packed for the session. Extra flavours can be added below.</p>
-        </div>
-        <div class="chip-grid" id="flavour-chips"></div>
-
-        <div class="section-head" style="margin:2.5rem 0 1rem;">
-          <span class="eyebrow">Step 3</span>
-          <h2>Add extras</h2>
-        </div>
-        <div class="addon-checks" id="addon-checks"></div>
-        <p class="order-note">Liquid base options: apple, orange, pineapple or tropical juice. Mention your juice choice in order notes.</p>
+      <p>Choose a package, customise your session, then checkout — card or cash on delivery.</p>
+      <div class="trust-inline">
+        <span class="age-badge" aria-label="18 plus only">18+</span>
+        <span>Photo ID checked on delivery</span>
+        <span>Trusted Central London service</span>
       </div>
-
-      <aside class="order-panel" aria-label="Order summary and checkout">
-        <h3>Your order</h3>
-        <div class="summary-line"><span>Package</span><strong id="summary-package">1 Shisha (£50)</strong></div>
-        <div class="summary-line"><span>Flavour</span><strong id="summary-flavour">Starburst</strong></div>
-        <div class="summary-line"><span>Extras</span><strong id="summary-addons">None</strong></div>
-        <div class="summary-total"><span>Total</span><strong id="summary-total">£50</strong></div>
-
-        <form id="order-form" class="form-stack">
-          <label>Full name
-            <input name="name" type="text" autocomplete="name" required placeholder="Your name">
-          </label>
-          <label>Phone
-            <input name="phone" type="tel" autocomplete="tel" required placeholder="07…">
-          </label>
-          <label>Delivery area
-            <select name="area" id="order-area" required></select>
-          </label>
-          <label>Address / hotel & room
-            <textarea name="address" rows="2" required placeholder="Street, building, flat or hotel room"></textarea>
-          </label>
-          <label>Order notes
-            <textarea name="notes" rows="2" placeholder="Juice base flavour, buzz code, timing…"></textarea>
-          </label>
-
-          <div>
-            <span class="eyebrow" style="margin-bottom:0.65rem;display:block;">Payment</span>
-            <div class="pay-options">
-              <label class="pay-option is-active">
-                <input type="radio" name="payment" value="card" checked>
-                <div>
-                  <strong>Pay by card</strong>
-                  <span>Online card payment — Stripe Payment Links plug in here when you are ready.</span>
-                </div>
-              </label>
-              <label class="pay-option" id="payment-cash-wrap">
-                <input id="payment-cash" type="radio" name="payment" value="cash">
-                <div>
-                  <strong>Cash on delivery</strong>
-                  <span>Pay the rider in cash when your shisha arrives.</span>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <button id="place-order-btn" class="btn btn-gold btn-block" type="submit">Pay by card</button>
-          <p class="order-note">18+ only. By ordering you confirm you are of legal age and will smoke responsibly. Need help? Call <a href="tel:07903375779" style="color:var(--gold);">07903375779</a>.</p>
-        </form>
-      </aside>
     </div>
   </section>
 
-  <section class="section section-muted section-tight">
+  <section class="section section-tight">
     <div class="container">
-      <div class="section-head center">
-        <span class="eyebrow">Why order here</span>
-        <h2>A real menu — not a WhatsApp inbox</h2>
-        <p>See packages, extras and totals before you commit. Choose how you pay. We confirm and dispatch across Central London.</p>
+      <div class="shop-head">
+        <div>
+          <h2>Packages</h2>
+          <p>Ready-to-smoke setups with coals and hygienic mouthpieces included.</p>
+        </div>
+        <div class="pay-accept" aria-label="We accept">
+          <span>We accept</span>
+          <i class="fa-brands fa-cc-visa" title="Visa"></i>
+          <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+          <span class="cash-pill">Cash</span>
+        </div>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">How delivery works</span>
+        <h2>Simple, discreet, verified</h2>
+      </div>
+      <div class="steps reveal">
+        <div class="step">
+          <h3>Order online</h3>
+          <p>Pick your package, flavour and any extras, then checkout in a few steps.</p>
+        </div>
+        <div class="step">
+          <h3>We deliver</h3>
+          <p>Fast, discreet drop-off across our Central London coverage zones.</p>
+        </div>
+        <div class="step">
+          <h3>ID check on arrival</h3>
+          <p>We verify photo ID on delivery. Strictly 18+ — smoke responsibly.</p>
+        </div>
       </div>
     </div>
   </section>
+
+  <div id="checkout-backdrop" class="checkout-backdrop"></div>
+  <aside id="checkout-drawer" class="checkout-drawer" aria-label="Checkout" aria-hidden="true">
+    <div class="checkout-drawer-head">
+      <div>
+        <span class="eyebrow">Checkout</span>
+        <h2>Your order</h2>
+      </div>
+      <button type="button" id="checkout-close" class="icon-btn" aria-label="Close checkout">&times;</button>
+    </div>
+
+    <div class="checkout-summary">
+      <div class="summary-line"><span>Package</span><strong data-cart-package>—</strong></div>
+      <div class="summary-line"><span>Flavour</span><strong data-cart-flavour>Starburst</strong></div>
+      <div class="summary-line"><span>Extras</span><strong data-cart-addons>None</strong></div>
+      <div class="summary-total"><span>Total</span><strong data-cart-total>£0</strong></div>
+    </div>
+
+    <form id="order-form" class="form-stack checkout-form">
+      <div>
+        <span class="eyebrow" style="display:block;margin-bottom:0.55rem;">Flavour</span>
+        <div class="chip-grid" id="flavour-chips"></div>
+      </div>
+
+      <div>
+        <span class="eyebrow" style="display:block;margin-bottom:0.55rem;">Extras</span>
+        <div class="addon-checks" id="addon-checks"></div>
+        <p class="order-note">Liquid base: apple, orange, pineapple or tropical — note your choice below.</p>
+      </div>
+
+      <label>Full name
+        <input name="name" type="text" autocomplete="name" required placeholder="Your name">
+      </label>
+      <label>Phone
+        <input name="phone" type="tel" autocomplete="tel" required placeholder="07…">
+      </label>
+      <label>Delivery area
+        <select name="area" id="order-area" required></select>
+      </label>
+      <label>Address / hotel &amp; room
+        <textarea name="address" rows="2" required placeholder="Street, building, flat or hotel room"></textarea>
+      </label>
+      <label>Order notes
+        <textarea name="notes" rows="2" placeholder="Juice base, buzz code, timing…"></textarea>
+      </label>
+
+      <div>
+        <span class="eyebrow" style="display:block;margin-bottom:0.65rem;">Payment</span>
+        <div class="pay-options">
+          <label class="pay-option is-active">
+            <input type="radio" name="payment" value="card" checked>
+            <div>
+              <strong>Pay by card</strong>
+              <span>Visa &amp; Mastercard accepted</span>
+              <div class="pay-icons">
+                <i class="fa-brands fa-cc-visa"></i>
+                <i class="fa-brands fa-cc-mastercard"></i>
+              </div>
+            </div>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="payment" value="cash">
+            <div>
+              <strong>Cash on delivery</strong>
+              <span>Pay the rider when your order arrives</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <label class="age-confirm">
+        <input type="checkbox" name="ageConfirm" required>
+        <span>I confirm I am 18+ and understand photo ID will be checked on delivery.</span>
+      </label>
+
+      <button id="place-order-btn" class="btn btn-gold btn-block" type="submit">Pay by card</button>
+      <p class="order-note">Trusted Central London delivery · <span class="age-badge age-badge--sm">18+</span> ID verified on arrival</p>
+    </form>
+  </aside>
+
+  <div id="cart-bar" class="cart-bar" aria-live="polite">
+    <div>
+      <strong data-cart-package>—</strong>
+      <span data-cart-total>£0</span>
+    </div>
+    <button type="button" id="cart-bar-checkout" class="btn btn-gold">Checkout</button>
+  </div>
 
   <footer class="site-footer"></footer>
   <script src="footer.js"></script>

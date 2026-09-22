@@ -1,11 +1,12 @@
 /* SHISHA DELIVERY — site behaviour & checkout */
 
 const STRIPE_PAYMENT_LINKS = {
-  // Replace these with live Stripe Payment Links when ready
   "1 Shisha": "",
   "2 Shisha": "",
   "3 Shisha": "",
 };
+
+const WHATSAPP_NUMBER = "447903375779";
 
 const MENU = {
   packages: [
@@ -13,7 +14,7 @@ const MENU = {
       id: "1",
       name: "1 Shisha",
       price: 50,
-      blurb: "Solo session — pipe, head, coals & mouthpiece.",
+      blurb: "Ideal for one person — pipe, fresh head, coals and mouthpiece.",
       includes: [
         "1 premium hookah pipe",
         "1 fresh flavour head",
@@ -26,7 +27,7 @@ const MENU = {
       name: "2 Shisha",
       price: 80,
       popular: true,
-      blurb: "Best for couples or a shared lounge night.",
+      blurb: "Our most popular choice for couples and shared nights in.",
       includes: [
         "2 premium hookah pipes",
         "2 fresh flavour heads",
@@ -38,7 +39,7 @@ const MENU = {
       id: "3",
       name: "3 Shisha",
       price: 110,
-      blurb: "Group setup for flats, suites & private gatherings.",
+      blurb: "Built for flats, hotel suites and small gatherings.",
       includes: [
         "3 premium hookah pipes",
         "3 fresh flavour heads",
@@ -77,7 +78,7 @@ const MENU = {
 };
 
 const state = {
-  package: MENU.packages[0],
+  package: null,
   flavour: MENU.flavours[0].name,
   addons: [],
   payment: "card",
@@ -95,11 +96,26 @@ function money(n) {
   return "£" + n;
 }
 
-function total() {
-  const add = state.addons.reduce((s, a) => s + a.price, 0);
-  return state.package.price + add;
+function cartTotal() {
+  if (!state.package) return 0;
+  return state.package.price + state.addons.reduce((s, a) => s + a.price, 0);
 }
 
+function showToast(title, body) {
+  let toast = $("#site-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "site-toast";
+    toast.className = "toast";
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<strong>${title}</strong><div>${body}</div>`;
+  toast.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove("show"), 5200);
+}
+
+/* ——— NAV ——— */
 function initNav() {
   const header = $(".site-header");
   const toggle = $(".nav-toggle");
@@ -123,12 +139,15 @@ function initNav() {
   const close = () => {
     header.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("nav-open");
   };
 
   toggle.addEventListener("click", () => {
     const open = header.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("nav-open", open);
   });
+
   $all(".nav-links a, .nav-drawer a", header).forEach((a) => {
     a.addEventListener("click", close);
   });
@@ -154,105 +173,197 @@ function initReveal() {
   els.forEach((el) => io.observe(el));
 }
 
-function showToast(title, body) {
-  let toast = $("#site-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "site-toast";
-    toast.className = "toast";
-    document.body.appendChild(toast);
+/* ——— FLOATING WHATSAPP + CHROME ——— */
+function initSiteChrome() {
+  if (!$(".wa-float")) {
+    const wa = document.createElement("a");
+    wa.className = "wa-float";
+    wa.href = `https://wa.me/${WHATSAPP_NUMBER}`;
+    wa.target = "_blank";
+    wa.rel = "noopener noreferrer";
+    wa.setAttribute("aria-label", "Message us on WhatsApp");
+    wa.innerHTML = '<i class="fa-brands fa-whatsapp"></i>';
+    document.body.appendChild(wa);
   }
-  toast.innerHTML = `<strong>${title}</strong><div>${body}</div>`;
-  toast.classList.add("show");
-  clearTimeout(showToast._t);
-  showToast._t = setTimeout(() => toast.classList.remove("show"), 5200);
+
+  // Ensure age badges exist in footers after footer.js mounts
+  setTimeout(() => {
+    $all(".site-footer .footer-bottom").forEach((el) => {
+      if (!el.querySelector(".age-badge")) {
+        const badge = document.createElement("span");
+        badge.className = "age-badge";
+        badge.textContent = "18+";
+        el.prepend(badge);
+      }
+    });
+  }, 50);
 }
 
-function syncSummary() {
-  const pkg = $("#summary-package");
-  const flav = $("#summary-flavour");
-  const adds = $("#summary-addons");
-  const tot = $("#summary-total");
-  if (pkg) pkg.textContent = `${state.package.name} (${money(state.package.price)})`;
-  if (flav) flav.textContent = state.flavour;
-  if (adds) {
-    adds.textContent = state.addons.length
+/* ——— HERO VIDEO (kept lean) ——— */
+function initHeroVideo() {
+  const video = document.getElementById("hero-video");
+  const fallback = document.getElementById("hero-fallback");
+  const playBtn = document.getElementById("hero-play-btn");
+  if (!video) return;
+
+  const resolveSrc = () => {
+    if (location.hostname.includes("github.io")) {
+      const parts = location.pathname.split("/").filter(Boolean);
+      const root = parts.length ? `/${parts[0]}/` : "/";
+      return `${root}assets/videos/hero_video_web.mp4`;
+    }
+    return "assets/videos/hero_video_web.mp4";
+  };
+
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.loop = true;
+  video.autoplay = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+
+  if (!video.src || !String(video.src).includes("hero_video")) {
+    video.src = resolveSrc();
+  }
+
+  const showPlayBtn = () => playBtn && playBtn.classList.add("is-visible");
+  const hidePlayBtn = () => playBtn && playBtn.classList.remove("is-visible");
+
+  const tryPlay = () => {
+    video.muted = true;
+    const p = video.play();
+    if (p && typeof p.then === "function") {
+      p.then(() => {
+        hidePlayBtn();
+        if (fallback) {
+          fallback.hidden = true;
+          fallback.style.display = "none";
+        }
+      }).catch(showPlayBtn);
+    }
+  };
+
+  video.addEventListener("playing", hidePlayBtn);
+  video.addEventListener("pause", () => {
+    if (!video.ended) showPlayBtn();
+  });
+  video.addEventListener("loadeddata", tryPlay);
+  video.addEventListener("canplay", tryPlay);
+
+  if (playBtn) {
+    playBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      video.muted = true;
+      video.play().then(hidePlayBtn).catch(showPlayBtn);
+    });
+  }
+
+  tryPlay();
+  setTimeout(() => {
+    if (video.paused) showPlayBtn();
+  }, 1200);
+}
+
+/* ——— E-COMMERCE SHOP + CHECKOUT DRAWER ——— */
+function syncCheckoutUI() {
+  const pkg = state.package;
+  const tot = cartTotal();
+
+  $all("[data-cart-total]").forEach((el) => {
+    el.textContent = money(tot);
+  });
+  $all("[data-cart-package]").forEach((el) => {
+    el.textContent = pkg ? `${pkg.name} (${money(pkg.price)})` : "—";
+  });
+  $all("[data-cart-flavour]").forEach((el) => {
+    el.textContent = state.flavour;
+  });
+  $all("[data-cart-addons]").forEach((el) => {
+    el.textContent = state.addons.length
       ? state.addons.map((a) => `${a.name} (+${money(a.price)})`).join(", ")
       : "None";
-  }
-  if (tot) tot.textContent = money(total());
-}
-
-function selectPackage(pkg, row) {
-  state.package = pkg;
-  $all(".pkg-row").forEach((el) => el.classList.remove("is-selected"));
-  if (row) row.classList.add("is-selected");
-  syncSummary();
-}
-
-function selectFlavour(name) {
-  state.flavour = name;
-  $all(".chip").forEach((c) => {
-    c.classList.toggle("is-active", c.dataset.flavour === name);
   });
-  syncSummary();
-}
 
-function toggleAddon(addon, checked) {
-  if (checked) {
-    if (!state.addons.find((a) => a.name === addon.name)) {
-      state.addons.push(addon);
-    }
-  } else {
-    state.addons = state.addons.filter((a) => a.name !== addon.name);
+  const bar = $("#cart-bar");
+  if (bar) bar.classList.toggle("is-visible", !!pkg);
+
+  const payBtn = $("#place-order-btn");
+  if (payBtn) {
+    payBtn.textContent =
+      state.payment === "card" ? "Pay by card" : "Place cash order";
   }
-  syncSummary();
 }
 
-function buildOrderPage() {
-  const list = $("#package-list");
-  if (!list) return;
+function openCheckout(pkg) {
+  if (pkg) state.package = pkg;
+  if (!state.package) state.package = MENU.packages[0];
 
-  list.innerHTML = MENU.packages
-    .map((pkg, i) => {
+  const drawer = $("#checkout-drawer");
+  const backdrop = $("#checkout-backdrop");
+  if (drawer) {
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+  }
+  if (backdrop) backdrop.classList.add("is-open");
+  document.body.classList.add("checkout-open");
+
+  $all(".product-card").forEach((card) => {
+    card.classList.toggle("is-selected", card.dataset.pkg === state.package.id);
+  });
+
+  syncCheckoutUI();
+}
+
+function closeCheckout() {
+  const drawer = $("#checkout-drawer");
+  if (drawer) {
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+  }
+  $("#checkout-backdrop")?.classList.remove("is-open");
+  document.body.classList.remove("checkout-open");
+}
+
+function buildShop() {
+  const grid = $("#product-grid");
+  if (!grid) return;
+
+  grid.innerHTML = MENU.packages
+    .map((pkg) => {
       const img = `assets/images/shisha/packages/P0${pkg.id}.webp`;
       return `
-      <article class="pkg-row${i === 0 ? " is-selected" : ""}" data-pkg="${pkg.id}" role="button" tabindex="0">
-        <img src="${img}" alt="${pkg.name} package">
-        <div>
-          ${pkg.popular ? '<span class="pkg-badge">Most ordered</span>' : ""}
-          <h3>${pkg.name}</h3>
-          <p style="color:var(--cream-mute);font-size:0.92rem;margin-bottom:0.35rem;">${pkg.blurb}</p>
-          <ul>${pkg.includes.map((x) => `<li>${x}</li>`).join("")}</ul>
+      <article class="product-card" data-pkg="${pkg.id}">
+        ${pkg.popular ? '<span class="pkg-badge">Most popular</span>' : ""}
+        <div class="product-card-media">
+          <img src="${img}" alt="${pkg.name}" loading="lazy" width="640" height="480">
         </div>
-        <div class="pkg-cta">
-          <div class="price">${money(pkg.price)}</div>
-          <button type="button" class="btn btn-soft" style="margin-top:0.75rem;" data-select-pkg="${pkg.id}">Select</button>
+        <div class="product-card-body">
+          <h3>${pkg.name}</h3>
+          <p class="product-blurb">${pkg.blurb}</p>
+          <ul>${pkg.includes.map((x) => `<li>${x}</li>`).join("")}</ul>
+          <div class="product-card-foot">
+            <div class="price">${money(pkg.price)}</div>
+            <button type="button" class="btn btn-gold" data-order-pkg="${pkg.id}">Order</button>
+          </div>
         </div>
       </article>`;
     })
     .join("");
 
-  list.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-select-pkg]");
-    const row = e.target.closest(".pkg-row");
-    const id = btn?.dataset.selectPkg || row?.dataset.pkg;
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-order-pkg]");
+    const card = e.target.closest(".product-card");
+    const id = btn?.dataset.orderPkg || card?.dataset.pkg;
     if (!id) return;
-    e.preventDefault();
     const pkg = MENU.packages.find((p) => p.id === id);
-    const targetRow = $(`.pkg-row[data-pkg="${id}"]`, list);
-    if (pkg) selectPackage(pkg, targetRow);
+    if (pkg) openCheckout(pkg);
   });
+}
 
-  list.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" && e.key !== " ") return;
-    const row = e.target.closest(".pkg-row");
-    if (!row) return;
-    e.preventDefault();
-    const pkg = MENU.packages.find((p) => p.id === row.dataset.pkg);
-    if (pkg) selectPackage(pkg, row);
-  });
-
+function buildCheckoutDrawer() {
   const chips = $("#flavour-chips");
   if (chips) {
     chips.innerHTML = MENU.flavours
@@ -263,7 +374,12 @@ function buildOrderPage() {
       .join("");
     chips.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-flavour]");
-      if (btn) selectFlavour(btn.dataset.flavour);
+      if (!btn) return;
+      state.flavour = btn.dataset.flavour;
+      $all(".chip", chips).forEach((c) =>
+        c.classList.toggle("is-active", c.dataset.flavour === state.flavour)
+      );
+      syncCheckoutUI();
     });
   }
 
@@ -272,19 +388,23 @@ function buildOrderPage() {
     addons.innerHTML = MENU.addons
       .map(
         (a) => `
-      <label>
+      <label class="addon-row">
         <input type="checkbox" data-addon="${a.name}" data-price="${a.price}">
-        <span>${a.name} <em style="color:var(--gold);font-style:normal;">(+${money(a.price)})</em></span>
+        <span>${a.name}</span>
+        <em>+${money(a.price)}</em>
       </label>`
       )
       .join("");
     addons.addEventListener("change", (e) => {
       const input = e.target;
       if (!input.matches("[data-addon]")) return;
-      toggleAddon(
-        { name: input.dataset.addon, price: Number(input.dataset.price) },
-        input.checked
-      );
+      const item = { name: input.dataset.addon, price: Number(input.dataset.price) };
+      if (input.checked) {
+        if (!state.addons.find((a) => a.name === item.name)) state.addons.push(item);
+      } else {
+        state.addons = state.addons.filter((a) => a.name !== item.name);
+      }
+      syncCheckoutUI();
     });
   }
 
@@ -300,13 +420,13 @@ function buildOrderPage() {
       state.payment = input.value;
       $all(".pay-option").forEach((el) => el.classList.remove("is-active"));
       input.closest(".pay-option")?.classList.add("is-active");
-      const btn = $("#place-order-btn");
-      if (btn) {
-        btn.textContent =
-          state.payment === "card" ? "Pay by card" : "Place cash order";
-      }
+      syncCheckoutUI();
     });
   });
+
+  $("#checkout-close")?.addEventListener("click", closeCheckout);
+  $("#checkout-backdrop")?.addEventListener("click", closeCheckout);
+  $("#cart-bar-checkout")?.addEventListener("click", () => openCheckout());
 
   const form = $("#order-form");
   if (form) {
@@ -316,18 +436,30 @@ function buildOrderPage() {
     });
   }
 
-  syncSummary();
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeCheckout();
+  });
 }
 
 function placeOrder(fd) {
+  if (!state.package) {
+    showToast("Choose a package", "Select a shisha package to continue.");
+    return;
+  }
+
   const name = (fd.get("name") || "").toString().trim();
   const phone = (fd.get("phone") || "").toString().trim();
   const area = (fd.get("area") || "").toString();
   const address = (fd.get("address") || "").toString().trim();
   const notes = (fd.get("notes") || "").toString().trim();
+  const ageOk = fd.get("ageConfirm");
 
   if (!name || !phone || !address) {
     showToast("Missing details", "Please add your name, phone and delivery address.");
+    return;
+  }
+  if (!ageOk) {
+    showToast("Age confirmation needed", "You must confirm you are 18+ to order.");
     return;
   }
 
@@ -342,7 +474,7 @@ function placeOrder(fd) {
     flavour: state.flavour,
     addons: state.addons,
     payment: state.payment,
-    total: total(),
+    total: cartTotal(),
     createdAt: new Date().toISOString(),
   };
 
@@ -350,50 +482,31 @@ function placeOrder(fd) {
     const prev = JSON.parse(localStorage.getItem("shishaOrders") || "[]");
     prev.unshift(order);
     localStorage.setItem("shishaOrders", JSON.stringify(prev.slice(0, 40)));
-  } catch (_) {
-    /* ignore storage errors */
-  }
+  } catch (_) {}
 
   if (state.payment === "card") {
     const link = STRIPE_PAYMENT_LINKS[state.package.name];
     if (link) {
-      showToast(
-        "Redirecting to card payment",
-        `Order saved for ${name}. Opening secure Stripe checkout…`
-      );
+      showToast("Opening secure payment", `Order saved for ${name}.`);
       setTimeout(() => {
         window.location.href = link;
-      }, 700);
+      }, 600);
       return;
     }
     showToast(
-      "Card payment ready to connect",
-      `Order for ${money(order.total)} saved. Add your Stripe Payment Link in script.js — for now call 07903375779 to take card payment.`
+      "Card payment",
+      `Thanks ${name}. Your ${money(order.total)} order is saved. Call 07903375779 to complete card payment, or choose cash on delivery.`
     );
     return;
   }
 
   showToast(
-    "Cash order placed",
-    `Thanks ${name}. Pay ${money(order.total)} in cash on delivery to ${area}. We'll confirm on ${phone}.`
+    "Order placed",
+    `Thanks ${name}. Pay ${money(order.total)} cash on delivery to ${area}. Please have valid photo ID ready — we check ID on delivery.`
   );
-  const form = $("#order-form");
-  if (form) form.reset();
-  state.addons = [];
-  $all("#addon-checks input").forEach((i) => (i.checked = false));
-  selectPackage(MENU.packages[0], $(".pkg-row"));
-  selectFlavour(MENU.flavours[0].name);
-  state.payment = "cash";
-  const cash = $('#payment-cash');
-  if (cash) cash.checked = true;
-  $all(".pay-option").forEach((el) => el.classList.remove("is-active"));
-  cash?.closest(".pay-option")?.classList.add("is-active");
-  const btn = $("#place-order-btn");
-  if (btn) btn.textContent = "Place cash order";
-  syncSummary();
+  closeCheckout();
 }
 
-/** Quick-add from other pages */
 function startOrder(pkgName) {
   const pkg = MENU.packages.find((p) => p.name === pkgName) || MENU.packages[0];
   try {
@@ -408,135 +521,21 @@ function applyPreselect() {
     if (!name) return;
     sessionStorage.removeItem("preselectPackage");
     const pkg = MENU.packages.find((p) => p.name === name);
-    if (!pkg) return;
-    const row = $(`.pkg-row[data-pkg="${pkg.id}"]`);
-    selectPackage(pkg, row);
+    if (pkg) setTimeout(() => openCheckout(pkg), 200);
   } catch (_) {}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initReveal();
-  buildOrderPage();
-  applyPreselect();
+  initSiteChrome();
   initHeroVideo();
+  buildShop();
+  buildCheckoutDrawer();
+  applyPreselect();
+  syncCheckoutUI();
 });
-
-function initHeroVideo() {
-  const video = document.getElementById("hero-video");
-  const fallback = document.getElementById("hero-fallback");
-  const playBtn = document.getElementById("hero-play-btn");
-  if (!video) return;
-
-  const resolveSrc = () => {
-    if (location.hostname.includes("github.io")) {
-      const parts = location.pathname.split("/").filter(Boolean);
-      const root = parts.length ? `/${parts[0]}/` : "/";
-      return `${root}assets/videos/hero_video_web.mp4`;
-    }
-    // Local / relative
-    const here = location.pathname.replace(/\/[^/]*$/, "/");
-    return `${here}assets/videos/hero_video_web.mp4`.replace(/\/{2,}/g, "/").replace(":/", "://");
-  };
-
-  video.muted = true;
-  video.defaultMuted = true;
-  video.playsInline = true;
-  video.loop = true;
-  video.autoplay = true;
-  video.setAttribute("muted", "");
-  video.setAttribute("playsinline", "");
-  video.setAttribute("webkit-playsinline", "");
-
-  const desired = resolveSrc();
-  if (!video.src || !video.src.includes("hero_video")) {
-    video.src = desired;
-  }
-
-  const showPlayBtn = () => {
-    if (playBtn) playBtn.classList.add("is-visible");
-  };
-  const hidePlayBtn = () => {
-    if (playBtn) playBtn.classList.remove("is-visible");
-  };
-
-  const tryPlay = () => {
-    video.muted = true;
-    const p = video.play();
-    if (p && typeof p.then === "function") {
-      p.then(() => {
-        hidePlayBtn();
-        if (fallback) {
-          fallback.hidden = true;
-          fallback.style.display = "none";
-        }
-      }).catch(() => {
-        showPlayBtn();
-      });
-    }
-  };
-
-  video.addEventListener("playing", hidePlayBtn);
-  video.addEventListener("pause", () => {
-    if (!video.ended) showPlayBtn();
-  });
-  video.addEventListener("loadeddata", tryPlay);
-  video.addEventListener("canplay", tryPlay);
-  video.addEventListener("error", () => {
-    showPlayBtn();
-    if (fallback) {
-      fallback.hidden = false;
-      fallback.style.display = "block";
-    }
-  });
-
-  if (playBtn) {
-    playBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      video.muted = true;
-      video.play().then(hidePlayBtn).catch(() => showPlayBtn());
-    });
-  }
-
-  // Clicking the hero background also tries to start playback
-  const media = document.querySelector(".hero--video .hero-media");
-  if (media) {
-    media.addEventListener("click", (e) => {
-      if (e.target.closest("a, button")) return;
-      if (video.paused) {
-        video.muted = true;
-        video.play().then(hidePlayBtn).catch(() => showPlayBtn());
-      }
-    });
-  }
-
-  tryPlay();
-  video.load();
-
-  document.addEventListener(
-    "visibilitychange",
-    () => {
-      if (!document.hidden && video.paused) tryPlay();
-    },
-    { passive: true }
-  );
-
-  ["touchstart", "click", "scroll", "keydown"].forEach((evt) => {
-    window.addEventListener(
-      evt,
-      () => {
-        if (video.paused) tryPlay();
-      },
-      { once: true, passive: true }
-    );
-  });
-
-  // If still paused after a moment, show the play button clearly
-  setTimeout(() => {
-    if (video.paused) showPlayBtn();
-  }, 1200);
-}
 
 window.startOrder = startOrder;
 window.MENU = MENU;
+window.openCheckout = openCheckout;

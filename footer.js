@@ -3,6 +3,8 @@
   const path = location.pathname;
   const inBlog = /\/blog\//.test(path);
   const p = inBlog ? "../" : "";
+  const wa = "https://wa.me/447903375779";
+  const tiktok = "#"; // connect TikTok later
 
   const html = `
   <div class="container footer-top">
@@ -11,19 +13,29 @@
         <div class="brand-mark" aria-hidden="true"><i class="fa-solid fa-wind"></i></div>
         <div class="brand-copy">
           <strong>Shisha Delivery</strong>
-          <span>Central London · 24/7</span>
+          <span>Trusted · Central London · 24/7</span>
         </div>
       </a>
-      <p class="footer-lead">Premium flavours delivered to your door — ready-to-smoke setups across Central London. Order online. Pay by card or cash.</p>
+      <p class="footer-lead">Premium shisha delivered to your door across Central London. Ready-to-smoke setups, discreet service, card or cash on delivery.</p>
       <div class="footer-contact-row">
         <a href="tel:07903375779"><i class="fa-solid fa-phone"></i> 07903375779</a>
         <a href="mailto:Mrshawest26@gmail.com"><i class="fa-solid fa-envelope"></i> Mrshawest26@gmail.com</a>
+      </div>
+      <div class="footer-social">
+        <a href="${wa}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="${tiktok}" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+      <div class="pay-accept footer-pay">
+        <span>We accept</span>
+        <i class="fa-brands fa-cc-visa" title="Visa"></i>
+        <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+        <span class="cash-pill">Cash</span>
       </div>
       <a class="btn btn-gold footer-order-btn" href="${p}order.html">Order your shisha</a>
     </div>
     <div class="footer-cols">
       <div>
-        <h4>Menu</h4>
+        <h4>Shop</h4>
         <ul>
           <li><a href="${p}order.html">Order online</a></li>
           <li><a href="${p}packages.html">Packages</a></li>
@@ -40,24 +52,24 @@
         </ul>
       </div>
       <div>
-        <h4>Service</h4>
+        <h4>Trust &amp; safety</h4>
         <ul>
-          <li>24 hour delivery</li>
-          <li>Card &amp; cash</li>
-          <li>Discreet drop-off</li>
-          <li class="age-note">Strictly 18+</li>
+          <li>Photo ID checked on delivery</li>
+          <li>Discreet professional service</li>
+          <li>Card &amp; cash accepted</li>
+          <li><span class="age-badge age-badge--sm">18+</span> Adults only</li>
         </ul>
       </div>
     </div>
   </div>
   <div class="container footer-bottom">
-    <span>© ${new Date().getFullYear()} Shisha Delivery. Central London.</span>
-    <span class="age-note">Smoke responsibly · Adults only</span>
+    <span class="age-badge">18+</span>
+    <span>© ${new Date().getFullYear()} Shisha Delivery. Central London. Smoke responsibly.</span>
+    <span class="age-note">Valid photo ID required on delivery</span>
   </div>`;
 
   function mount() {
-    const footers = document.querySelectorAll("footer.site-footer");
-    footers.forEach((el) => {
+    document.querySelectorAll("footer.site-footer").forEach((el) => {
       el.innerHTML = html;
     });
   }
