@@ -1,218 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Door To Door Shisha Delivery | Private Shisha Concierge Central London</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shisha Packages & Pricing | SHISHA DELIVERY</title>
+  <meta name="description" content="1 Shisha £50, 2 Shisha £80, 3 Shisha £110 plus extras. Transparent Central London delivery pricing — pay by card or cash.">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Parisienne&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-text">
-                    <h1>DOOR TO DOOR SHISHA DELIVERY</h1>
-                    <span>CENTRAL LONDON CONCIERGE</span>
-                </div>
-            </a>
-            <nav>
-                <ul>
-                    <li><a href="menu.html" class="">Flavours</a></li>
-                    <li><a href="packages.html" class="active">Packages</a></li>
-                    <li><a href="about.html" class="">The Experience</a></li>
-                    <li><a href="areas.html" class="">Coverage</a></li>
-                    <li><a href="contact.html" class="">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="nav-actions">
-                <a href="https://wa.me/447903375779" target="_blank" class="btn-outline"><i class="fa-brands fa-whatsapp"></i> WhatsApp Concierge</a>
-                <a href="tel:07903375779" class="btn-concierge"><i class="fa-solid fa-phone"></i> 07903375779</a>
-            </div>
-        </div>
-    </header>
-
-    <section class="hero" style="min-height: 40vh; align-items: center;">
-        <div class="hero-content">
-            <span class="hero-trust">TRANSPARENT PRICING</span>
-            <h1>SHISHA PACKAGES</h1>
-            <p class="hero-p">Ready-to-smoke setups, glowing coals, tongs, and sealed hygienic mouthpieces included.</p>
-        </div>
-    </section>
-
-    <section>
-        <div class="packages-grid">
-            <div class="pkg-card">
-                <img src="assets/images/shisha/packages/P01.png" class="pkg-card-img" alt="P01 Private Session">
-                <div class="pkg-card-body">
-                    <div>
-                        <h3 class="pkg-name">PRIVATE SESSION</h3>
-                        <div class="pkg-price">£50</div>
-                        <ul class="pkg-features">
-                            <li><i class="fa-solid fa-square"></i> 1 Premium Hookah Pipe</li>
-                            <li><i class="fa-solid fa-square"></i> 1 Fresh Flavour Head</li>
-                            <li><i class="fa-solid fa-square"></i> 10 Natural Coconut Coals</li>
-                            <li><i class="fa-solid fa-square"></i> Sealed Hygienic Mouthpiece</li>
-                        </ul>
-                    </div>
-                    <button onclick="openOrderModal('PRIVATE SESSION', 50)" class="btn-outline" style="width: 100%; justify-content: center;">BOOK £50 SESSION</button>
-                </div>
-            </div>
-
-            <div class="pkg-card highlight">
-                <span class="pkg-pop-tag">POPULAR</span>
-                <img src="assets/images/shisha/packages/P02.png" class="pkg-card-img" alt="P02 Double Session">
-                <div class="pkg-card-body">
-                    <div>
-                        <h3 class="pkg-name">DOUBLE SESSION</h3>
-                        <div class="pkg-price">£80</div>
-                        <ul class="pkg-features">
-                            <li><i class="fa-solid fa-square"></i> 2 Premium Hookah Pipes</li>
-                            <li><i class="fa-solid fa-square"></i> 2 Fresh Flavour Heads</li>
-                            <li><i class="fa-solid fa-square"></i> 20 Natural Coconut Coals</li>
-                            <li><i class="fa-solid fa-square"></i> Electric Coal Burner Included</li>
-                        </ul>
-                    </div>
-                    <button onclick="openOrderModal('DOUBLE SESSION', 80)" class="btn-concierge" style="width: 100%; justify-content: center;">BOOK £80 SESSION</button>
-                </div>
-            </div>
-
-            <div class="pkg-card">
-                <img src="assets/images/shisha/packages/P03.png" class="pkg-card-img" alt="P03 Group Session">
-                <div class="pkg-card-body">
-                    <div>
-                        <h3 class="pkg-name">GROUP SESSION</h3>
-                        <div class="pkg-price">£110</div>
-                        <ul class="pkg-features">
-                            <li><i class="fa-solid fa-square"></i> 3 Premium Hookah Pipes</li>
-                            <li><i class="fa-solid fa-square"></i> 3 Fresh Flavour Heads</li>
-                            <li><i class="fa-solid fa-square"></i> 30 Natural Coconut Coals</li>
-                            <li><i class="fa-solid fa-square"></i> Electric Coal Burner Included</li>
-                        </ul>
-                    </div>
-                    <button onclick="openOrderModal('GROUP SESSION', 110)" class="btn-outline" style="width: 100%; justify-content: center;">BOOK £110 SESSION</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <div class="logo-text" style="margin-bottom: 20px;">
-                    <h1 style="color: #FFF; font-size: 1.2rem; letter-spacing: 2px;">DOOR TO DOOR SHISHA DELIVERY</h1>
-                    <span style="color: var(--gold); font-size: 0.65rem; letter-spacing: 3px;">CENTRAL LONDON CONCIERGE</span>
-                </div>
-                <p style="font-size: 0.9rem; margin-bottom: 20px; line-height: 1.7;">Private shisha delivery across Central London. Delivering ready-to-smoke luxury setups directly to your home, hotel suite or private residence.</p>
-                <p><strong style="color: #FFF;">Direct Concierge Line:</strong> <a href="tel:07903375779" style="color: var(--gold); text-decoration: none;">07903375779</a></p>
-                <p><strong style="color: #FFF;">Email:</strong> Mrshawest26@gmail.com</p>
-            </div>
-
-            <div class="footer-col">
-                <h4>Navigation</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="menu.html">Choose Flavour</a></li>
-                    <li><a href="packages.html">Shisha Packages</a></li>
-                    <li><a href="about.html">The Experience</a></li>
-                    <li><a href="areas.html">Central London Coverage</a></li>
-                    <li><a href="contact.html">Contact Concierge</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Coverage Zones</h4>
-                <ul>
-                    <li>Westminster</li>
-                    <li>Knightsbridge</li>
-                    <li>Chelsea</li>
-                    <li>Vauxhall</li>
-                    <li>South Kensington</li>
-                    <li>High Street Kensington</li>
-                    <li>Baker Street & Marble Arch</li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Private Booking</h4>
-                <p style="font-size: 0.9rem; margin-bottom: 15px;">24/7 Service operating around the clock in Central London.</p>
-                <button onclick="openOrderModal('PRIVATE SESSION', 50)" class="btn-concierge" style="width: 100%; justify-content: center;">BOOK YOUR SHISHA</button>
-            </div>
-        </div>
-
-        <div style="text-align: center; border-top: 1px solid var(--border-subtle); padding-top: 25px; font-size: 0.8rem; color: var(--text-muted);">
-            <p>&copy; 2026 Door To Door Shisha Delivery. All Rights Reserved. | Strictly 18+ Adults Only. | 24/7 Hotline: 07903375779</p>
-        </div>
-    </footer>
-
-    <!-- ORDER CONCIERGE MODAL -->
-    <div id="orderModal" class="config-modal">
-        <div class="config-modal-content">
-            <span class="close-modal" onclick="closeOrderModal()">&times;</span>
-            <span class="section-label">Private Concierge Order</span>
-            <h2 style="font-size: 1.8rem; margin-bottom: 25px;">Complete Your Booking</h2>
-            
-            <div style="background: var(--bg-card); padding: 25px; border: 1px solid var(--border-subtle); border-radius: 4px; margin-bottom: 25px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="color: var(--text-muted);">Selected Package:</span>
-                    <strong id="modal-pkg" style="color: var(--gold);">PRIVATE SESSION (£50)</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="color: var(--text-muted);">Selected Flavour:</span>
-                    <strong id="modal-flavour" style="color: #FFF;">Al Fakher Double Apple</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                    <span style="color: var(--text-muted);">Upgrades:</span>
-                    <strong id="modal-addons" style="color: #FFF;">None</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; border-top: 1px solid var(--border-subtle); padding-top: 15px;">
-                    <span style="font-size: 1.1rem; color: #FFF; font-weight: 700;">Total Payable:</span>
-                    <span style="font-size: 1.8rem; font-family: 'Cinzel', serif; color: var(--gold); font-weight: 700;" id="modal-total">£50</span>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 25px;">
-                <label style="display: block; font-size: 0.85rem; color: var(--gold); letter-spacing: 1px; margin-bottom: 8px; font-weight: 600;">SELECT YOUR FLAVOUR</label>
-                <select onchange="selectFlavour(this.value)" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); color: #FFF; border-radius: 2px; margin-bottom: 15px;">
-                    <option value="Al Fakher Double Apple">Al Fakher Double Apple (Red & Green Apples)</option>
-                    <option value="Al Fakher Fresh Mint">Al Fakher Fresh Mint</option>
-                    <option value="Adalya Love 66">Adalya Love 66 (Watermelon, Melon & Mint)</option>
-                    <option value="Adalya Lady Killer">Adalya Lady Killer (Mango, Melon, Berries & Mint)</option>
-                    <option value="Mazaya Watermelon Mint">Mazaya Watermelon Mint</option>
-                    <option value="Paan Ras / Paan Mint">Paan Ras / Paan Mint (Betel Leaf)</option>
-                    <option value="Starburst Candy Mix">Starburst Candy Mix</option>
-                    <option value="Savaco Luxury Line (£30/50g)">Savaco Luxury Line (+£30)</option>
-                </select>
-
-                <label style="display: block; font-size: 0.85rem; color: var(--gold); letter-spacing: 1px; margin-bottom: 8px; font-weight: 600;">OPTIONAL UPGRADES</label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-                    <label style="font-size: 0.85rem; color: var(--text-muted); cursor: pointer;"><input type="checkbox" onchange="toggleUpgrade('Fresh Fruit Head', 30, this)"> Fresh Fruit Head (+£30)</label>
-                    <label style="font-size: 0.85rem; color: var(--text-muted); cursor: pointer;"><input type="checkbox" onchange="toggleUpgrade('Electric Coal Burner', 35, this)"> Electric Coal Burner (+£35)</label>
-                    <label style="font-size: 0.85rem; color: var(--text-muted); cursor: pointer;"><input type="checkbox" onchange="toggleUpgrade('Chilled Juice Base', 15, this)"> Chilled Juice Base (+£15)</label>
-                    <label style="font-size: 0.85rem; color: var(--text-muted); cursor: pointer;"><input type="checkbox" onchange="toggleUpgrade('Under-Shisha LED Base', 15, this)"> Under-Shisha LED (+£15)</label>
-                </div>
-
-                <label style="display: block; font-size: 0.85rem; color: var(--gold); letter-spacing: 1px; margin-bottom: 8px; font-weight: 600;">DELIVERY DETAILS</label>
-                <input type="text" id="cust-name" placeholder="Full Name" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); color: #FFF; border-radius: 2px; margin-bottom: 10px;">
-                <select id="cust-area" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); color: #FFF; border-radius: 2px; margin-bottom: 10px;">
-                    <option>Westminster</option>
-                    <option>Knightsbridge</option>
-                    <option>Chelsea</option>
-                    <option>Vauxhall</option>
-                    <option>South Kensington</option>
-                    <option>High Street Kensington</option>
-                    <option>Baker Street</option>
-                    <option>Marble Arch</option>
-                </select>
-                <input type="tel" id="cust-phone" placeholder="Contact Phone Number" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); color: #FFF; border-radius: 2px;">
-            </div>
-
-            <button onclick="dispatchWhatsAppOrder()" class="btn-concierge" style="width: 100%; justify-content: center; padding: 16px;"><i class="fa-brands fa-whatsapp"></i> CONFIRM BOOKING VIA WHATSAPP</button>
-            <p style="font-size: 0.8rem; text-align: center; color: var(--text-muted); margin-top: 12px;">Or call concierge directly: <a href="tel:07903375779" style="color: var(--gold);">07903375779</a></p>
-        </div>
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a class="brand" href="index.html">
+        <div class="brand-mark"><i class="fa-solid fa-wind"></i></div>
+        <div class="brand-copy"><strong>Shisha Delivery</strong><span>Central London · 24/7</span></div>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      <ul class="nav-links">
+        <li><a href="order.html">Order</a></li>
+        <li><a href="menu.html">Flavours</a></li>
+        <li><a class="active" href="packages.html">Packages</a></li>
+        <li><a href="areas.html">Areas</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a class="nav-phone" href="tel:07903375779"><i class="fa-solid fa-phone"></i> 07903375779</a>
+        <a class="btn btn-ghost" href="tel:07903375779">Call</a>
+        <a class="btn btn-gold" href="order.html">Order now</a>
+      </div>
     </div>
+  </header>
 
-    <script src="script.js"></script>
+  <section class="page-hero">
+    <div class="hero-media" aria-hidden="true">
+      <img src="assets/images/shisha/packages/P01.webp" alt="">
+    </div>
+    <div class="page-hero-inner">
+      <span class="eyebrow">Menu pricing</span>
+      <h1>Packages built for real nights</h1>
+      <p>£50 · £80 · £110 — clear packages from our Central London menu, with extras you can add at checkout.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="menu-band reveal">
+        <article class="pkg-row">
+          <img src="assets/images/shisha/packages/P01.webp" alt="1 Shisha">
+          <div>
+            <h3>1 Shisha — £50</h3>
+            <p style="color:var(--cream-mute);margin-bottom:0.5rem;">Ideal for one person unwinding at home or a hotel room.</p>
+            <ul>
+              <li>1 premium hookah pipe</li>
+              <li>1 fresh flavour head</li>
+              <li>10 natural coconut coals</li>
+              <li>Sealed hygienic mouthpiece</li>
+            </ul>
+          </div>
+          <div class="pkg-cta">
+            <div class="price">£50</div>
+            <button class="btn btn-gold" style="margin-top:0.75rem;" type="button" onclick="startOrder('1 Shisha')">Order</button>
+          </div>
+        </article>
+        <article class="pkg-row is-selected">
+          <img src="assets/images/shisha/packages/P02.webp" alt="2 Shisha">
+          <div>
+            <span class="pkg-badge">Most ordered</span>
+            <h3>2 Shisha — £80</h3>
+            <p style="color:var(--cream-mute);margin-bottom:0.5rem;">The sweet spot for couples and shared lounge nights.</p>
+            <ul>
+              <li>2 premium hookah pipes</li>
+              <li>2 fresh flavour heads</li>
+              <li>20 natural coconut coals</li>
+              <li>Electric coal burner included</li>
+            </ul>
+          </div>
+          <div class="pkg-cta">
+            <div class="price">£80</div>
+            <button class="btn btn-gold" style="margin-top:0.75rem;" type="button" onclick="startOrder('2 Shisha')">Order</button>
+          </div>
+        </article>
+        <article class="pkg-row">
+          <img src="assets/images/shisha/packages/P03.webp" alt="3 Shisha">
+          <div>
+            <h3>3 Shisha — £110</h3>
+            <p style="color:var(--cream-mute);margin-bottom:0.5rem;">Built for flats, suites and small private gatherings.</p>
+            <ul>
+              <li>3 premium hookah pipes</li>
+              <li>3 fresh flavour heads</li>
+              <li>30 natural coconut coals</li>
+              <li>Electric coal burner included</li>
+            </ul>
+          </div>
+          <div class="pkg-cta">
+            <div class="price">£110</div>
+            <button class="btn btn-gold" style="margin-top:0.75rem;" type="button" onclick="startOrder('3 Shisha')">Order</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-muted">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Extras</span>
+        <h2>Add-ons from the flyer menu</h2>
+        <p>Layer these onto any package when you checkout.</p>
+      </div>
+      <div class="extras-list reveal">
+        <div class="extra-line"><div><h4>Extra head</h4><p>Another fresh packed head when the first runs down.</p></div><span class="price">£30</span></div>
+        <div class="extra-line"><div><h4>Extra 10 coals</h4><p>Natural coconut coals to keep the session going.</p></div><span class="price">£5</span></div>
+        <div class="extra-line"><div><h4>Extra coal burner</h4><p>Electric burner for fast, clean coal prep.</p></div><span class="price">£35</span></div>
+        <div class="extra-line"><div><h4>Extra flavour 50g</h4><p>Any extra flavour pouch from our brand list.</p></div><span class="price">£10</span></div>
+        <div class="extra-line"><div><h4>Savaco tobacco 50g</h4><p>Premium Savaco line upgrade.</p></div><span class="price">£30</span></div>
+        <div class="extra-line"><div><h4>Liquid base</h4><p>Replace water with apple, orange, pineapple or tropical juice.</p></div><span class="price">£15</span></div>
+        <div class="extra-line"><div><h4>Light under the shisha</h4><p>LED glow under the base for atmosphere.</p></div><span class="price">£15</span></div>
+      </div>
+      <div class="btn-row reveal" style="margin-top:2.5rem;">
+        <a class="btn btn-gold" href="order.html">Go to checkout</a>
+        <a class="btn btn-ghost" href="menu.html">See flavours</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="split reveal">
+        <div class="split-copy">
+          <span class="eyebrow">Payment</span>
+          <h2>Card online or cash on delivery</h2>
+          <p>Checkout is built for real payments — not “message us on WhatsApp and we’ll figure it out.” Choose card (Stripe Payment Links connect when you are ready) or pay cash to the rider.</p>
+          <a class="btn btn-gold" href="order.html">Start your order</a>
+        </div>
+        <div class="split-visual">
+          <img src="assets/images/shisha/upgrades/U01.webp" alt="Premium shisha extras">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer"></footer>
+  <script src="footer.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
