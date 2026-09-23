@@ -474,18 +474,24 @@ h1, h2, h3, h4 {
 .hero-tag {
   font-family: "Parisienne", cursive;
   font-size: clamp(1.5rem, 3vw, 2.1rem);
-  color: var(--gold-bright);
+  color: #c9b48a;
   margin-bottom: 1.25rem;
   animation: riseIn 0.9s 0.1s var(--ease) both;
-  text-shadow: 0 6px 28px rgba(0, 0, 0, 0.55);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 8px rgba(0, 0, 0, 0.85),
+    0 8px 28px rgba(0, 0, 0, 0.7);
 }
 
 .hero-lead {
   font-size: 1.05rem;
-  color: var(--cream-mute);
+  color: #b9aea0;
   max-width: 34rem;
   margin-bottom: 1.75rem;
   animation: riseIn 0.9s 0.18s var(--ease) both;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 3px 14px rgba(0, 0, 0, 0.8);
 }
 
 .hero-actions {
@@ -1711,6 +1717,14 @@ img[loading="lazy"] {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gold);
+}
+
+.pay-soon {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cream-mute);
+  opacity: 0.75;
 }
 
 .pay-icons {

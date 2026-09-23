@@ -53,7 +53,7 @@
     <div class="page-hero-inner">
       <span class="eyebrow">Shop</span>
       <h1>Order your shisha</h1>
-      <p>Choose a package, customise your session, then checkout — card or cash on delivery.</p>
+      <p>Choose a package, customise your session, then checkout — cash on delivery. Card payments coming soon.</p>
       <div class="trust-inline">
         <span class="age-badge" aria-label="18 plus only">18+</span>
         <span>Photo ID checked on delivery</span>
@@ -69,11 +69,10 @@
           <h2>Packages</h2>
           <p>Ready-to-smoke setups with coals and hygienic mouthpieces included.</p>
         </div>
-        <div class="pay-accept" aria-label="We accept">
-          <span>We accept</span>
-          <span class="icon icon-visa" title="Visa" aria-label="Visa"></span>
-          <span class="icon icon-mc" title="Mastercard" aria-label="Mastercard"></span>
-          <span class="cash-pill">Cash</span>
+        <div class="pay-accept" aria-label="Payment">
+          <span>Pay by</span>
+          <span class="cash-pill">Cash on delivery</span>
+          <span class="pay-soon">Card coming soon</span>
         </div>
       </div>
       <div class="product-grid" id="product-grid"></div>
@@ -151,25 +150,27 @@
       <div>
         <span class="eyebrow" style="display:block;margin-bottom:0.65rem;">Payment</span>
         <div class="pay-options">
-          <label class="pay-option is-active">
-            <input type="radio" name="payment" value="card" checked>
+          <!-- Card option kept in markup for Stripe later; hidden while cash-only -->
+          <label class="pay-option pay-option--card" hidden aria-hidden="true">
+            <input type="radio" name="payment" value="card" disabled tabindex="-1">
             <div>
               <strong>Pay by card</strong>
-              <span>Visa &amp; Mastercard accepted</span>
+              <span>Visa &amp; Mastercard — coming soon</span>
               <div class="pay-icons">
                 <span class="icon icon-visa" title="Visa" aria-label="Visa"></span>
                 <span class="icon icon-mc" title="Mastercard" aria-label="Mastercard"></span>
               </div>
             </div>
           </label>
-          <label class="pay-option">
-            <input type="radio" name="payment" value="cash">
+          <label class="pay-option is-active">
+            <input type="radio" name="payment" value="cash" checked>
             <div>
               <strong>Cash on delivery</strong>
               <span>Pay the rider when your order arrives</span>
             </div>
           </label>
         </div>
+        <p class="order-note" style="margin-top:0.75rem;">Card payments are coming soon. For now, please pay cash on delivery.</p>
       </div>
 
       <label class="age-confirm">
@@ -177,7 +178,7 @@
         <span>I confirm I am 18+ and understand photo ID will be checked on delivery.</span>
       </label>
 
-      <button id="place-order-btn" class="btn btn-gold btn-block" type="submit">Pay by card</button>
+      <button id="place-order-btn" class="btn btn-gold btn-block" type="submit">Place cash order</button>
       <p class="order-note">Trusted Central London delivery · <span class="age-badge age-badge--sm">18+</span> ID verified on arrival</p>
     </form>
   </aside>

@@ -6,6 +6,9 @@ const STRIPE_PAYMENT_LINKS = {
   "3 Shisha": "",
 };
 
+/** Flip to true + fill STRIPE_PAYMENT_LINKS when card checkout goes live */
+const CARD_PAYMENTS_ENABLED = false;
+
 const WHATSAPP_NUMBER = "447903375779";
 
 const MENU = {
@@ -81,7 +84,7 @@ const state = {
   package: null,
   flavour: MENU.flavours[0].name,
   addons: [],
-  payment: "card",
+  payment: "cash", // card UI hidden until Stripe links are live; keep STRIPE_PAYMENT_LINKS ready
 };
 
 function $(sel, root = document) {
@@ -425,12 +428,45 @@ function buildCheckoutDrawer() {
 
   $all('input[name="payment"]').forEach((input) => {
     input.addEventListener("change", () => {
-      state.payment = input.value;
+      if (!CARD_PAYMENTS_ENABLED && input.value === "card") {
+        input.checked = false;
+        const cash = $('input[name="payment"][value="cash"]');
+        if (cash) cash.checked = true;
+        state.payment = "cash";
+      } else {
+        state.payment = input.value;
+      }
       $all(".pay-option").forEach((el) => el.classList.remove("is-active"));
-      input.closest(".pay-option")?.classList.add("is-active");
+      $('input[name="payment"]:checked')?.closest(".pay-option")?.classList.add("is-active");
       syncCheckoutUI();
     });
   });
+
+  // Ensure cash-only UI while card is offline
+  if (!CARD_PAYMENTS_ENABLED) {
+    state.payment = "cash";
+    $all(".pay-option--card").forEach((el) => {
+      el.hidden = true;
+      el.setAttribute("aria-hidden", "true");
+      const input = $("input", el);
+      if (input) {
+        input.disabled = true;
+        input.checked = false;
+      }
+    });
+    const cash = $('input[name="payment"][value="cash"]');
+    if (cash) {
+      cash.checked = true;
+      cash.closest(".pay-option")?.classList.add("is-active");
+    }
+  } else {
+    $all(".pay-option--card").forEach((el) => {
+      el.hidden = false;
+      el.removeAttribute("aria-hidden");
+      const input = $("input", el);
+      if (input) input.disabled = false;
+    });
+  }
 
   $("#checkout-close")?.addEventListener("click", closeCheckout);
   $("#checkout-backdrop")?.addEventListener("click", closeCheckout);
@@ -492,7 +528,8 @@ function placeOrder(fd) {
     localStorage.setItem("shishaOrders", JSON.stringify(prev.slice(0, 40)));
   } catch (_) {}
 
-  if (state.payment === "card") {
+  if (state.payment === "card" && CARD_PAYMENTS_ENABLED) {
+    // Card path kept for Stripe Payment Links — fill STRIPE_PAYMENT_LINKS when ready
     const link = STRIPE_PAYMENT_LINKS[state.package.name];
     if (link) {
       showToast("Opening secure payment", `Order saved for ${name}.`);
@@ -508,11 +545,43 @@ function placeOrder(fd) {
     return;
   }
 
+  // Force cash path while card is offline
+  order.payment = "cash";
+  state.payment = "cash";
+
   showToast(
-    "Order placed",
-    `Thanks ${name}. Pay ${money(order.total)} cash on delivery to ${area}. Please have valid photo ID ready — we check ID on delivery.`
+    "Opening WhatsApp",
+    `Thanks ${name}. Send the order message to confirm — pay ${money(order.total)} cash on delivery.`
   );
   closeCheckout();
+
+  // Prefill WhatsApp to the business number with full order details
+  const addonLine = order.addons.length
+    ? order.addons.map((a) => `${a.name} (+${money(a.price)})`).join(", ")
+    : "None";
+  const waText = [
+    `New shisha order — Door To Door`,
+    ``,
+    `Name: ${name}`,
+    `Phone: ${phone}`,
+    `Area: ${area}`,
+    `Address: ${address}`,
+    `Package: ${order.package} (${money(order.packagePrice)})`,
+    `Flavour: ${order.flavour}`,
+    `Extras: ${addonLine}`,
+    `Payment: Cash on delivery`,
+    `Total: ${money(order.total)}`,
+    notes ? `Notes: ${notes}` : null,
+    ``,
+    `18+ confirmed · please reply to confirm dispatch`,
+  ]
+    .filter((line) => line !== null)
+    .join("\n");
+
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+  setTimeout(() => {
+    window.open(waUrl, "_blank", "noopener,noreferrer");
+  }, 350);
 }
 
 function startOrder(pkgName) {
